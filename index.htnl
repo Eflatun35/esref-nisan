@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonsuz Bir Anı | DijiAnı.co</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* GENEL TASARIM: SICAK GÜN BATIMI ESİNTİSİ */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, #fff5f5 0%, #ffe3d8 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #5d4037;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* POLAROID FOTOĞRAF DÜZENİ */
+        .photo-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 380px;
+            margin-bottom: 30px;
+        }
+
+        .polaroid {
+            position: absolute;
+            background: white;
+            padding: 12px 12px 40px 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .polaroid img {
+            width: 170px;
+            height: 210px;
+            object-fit: cover;
+            border: 1px solid #f9f9f9;
+        }
+
+        /* Rastgele Dağılım */
+        .p1 { transform: translate(-110px, 30px) rotate(-10deg); z-index: 1; }
+        .p2 { transform: translate(130px, 40px) rotate(8deg); z-index: 2; }
+        .p3 { transform: translate(10px, -10px) rotate(-3deg); z-index: 3; }
+
+        .polaroid:hover {
+            z-index: 10;
+            transform: scale(1.15) rotate(0deg);
+        }
+
+        /* ROMANTİK SÖZLER ALANI */
+        .quote-area {
+            text-align: center;
+            max-width: 450px;
+            margin-bottom: 25px;
+        }
+
+        .quote-area p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #ff6b6b;
+            margin: 5px 0;
+        }
+
+        /* CANLI SAYAÇ */
+        .counter-box {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        #timer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .unit {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            min-width: 50px;
+        }
+
+        .unit span {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ff6b6b;
+        }
+
+        .unit p {
+            margin: 0;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: #999;
+        }
+
+        .salise { color: #d4a373 !important; }
+
+        /* ŞİFRE ALANI */
+        .auth-box {
+            text-align: center;
+        }
+
+        input {
+            padding: 12px 15px;
+            border-radius: 20px;
+            border: 1px solid #eee;
+            outline: none;
+            width: 150px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #d4a373;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 8px;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #c29263; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <audio id="hikayeMuzik">
+        <source src="hikayemiz.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="quote-area">
+        <p>"Bazı anlar, bir ömre bedeldir..."</p>
+    </div>
+
+    <div class="photo-container">
+        <div class="polaroid p1"><img src="foto1.jpg"></div>
+        <div class="polaroid p2"><img src="foto2.jpg"></div>
+        <div class="polaroid p3"><img src="foto3.jpg"></div>
+    </div>
+
+    <div class="quote-area" style="margin-top:-20px; margin-bottom:20px;">
+        <p style="font-size: 1.3rem; color: #8d6e63;">"Seninle geçen her saniye, en değerli hazinem."</p>
+    </div>
+
+    <div class="counter-box">
+        <p style="margin-top:0; font-weight:600; font-size:0.9rem;">Yolculuğumuz Başlayalı...</p>
+        <div id="timer">
+            <div class="unit"><span id="years">0</span><p>Yıl</p></div>
+            <div class="unit"><span id="days">0</span><p>Gün</p></div>
+            <div class="unit"><span id="hours">0</span><p>Saat</p></div>
+            <div class="unit"><span id="mins">0</span><p>Dak</p></div>
+            <div class="unit"><span id="secs">0</span><p>Sn</p></div>
+            <div class="unit"><span id="ms" class="salise">00</span><p>Sl</p></div>
+        </div>
+    </div>
+
+    <div class="auth-box">
+        <input type="password" id="sifreInput" placeholder="Şifreyi Gir...">
+        <button onclick="kontrolEt()">Kilidi Aç ✨</button>
+    </div>
+
+    <script>
+        // SAYAÇ AYARI: 27 Kasım 2022, Saat 00:00
+        const baslangic = new Date(2022, 10, 27, 0, 0, 0); 
+
+        function say() {
+            const simdi = new Date();
+            const fark = simdi - baslangic;
+
+            const y = Math.floor(fark / (1000 * 60 * 60 * 24 * 365.25));
+            const g = Math.floor((fark % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+            const sa = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const dk = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
+            const sn = Math.floor((fark % (1000 * 60)) / 1000);
+            const ms = Math.floor((fark % 1000) / 10);
+
+            document.getElementById('years').innerText = y;
+            document.getElementById('days').innerText = g;
+            document.getElementById('hours').innerText = sa;
+            document.getElementById('mins').innerText = dk;
+            document.getElementById('secs').innerText = sn;
+            document.getElementById('ms').innerText = ms.toString().padStart(2, '0');
+        }
+        setInterval(say, 10);
+
+        // ŞİFRE KONTROLÜ
+        function kontrolEt() {
+            const sifre = document.getElementById('sifreInput').value;
+            const muzik = document.getElementById('hikayeMuzik');
+
+            if(sifre === "0000") {
+                muzik.play();
+                alert("Hoş geldin canımın içi... ❤️ Seninle geçen her an çok kıymetli.");
+            } else {
+                alert("Yanlış şifre! İpucu: Dört tane sıfır...");
+            }
+        }
+    </script>
+</body>
+</html>
